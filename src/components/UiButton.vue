@@ -41,8 +41,6 @@
 
 <style scoped lang="scss">
 
-  $bg-color: #6d5dac;
-
   .button {
     border: 0;
     display: inline-flex;
