@@ -3,7 +3,23 @@
   export default {
     name: 'UiButton',
     props: {
-      label: String
+      type: {
+        type: String,
+        default: 'plain'
+      },
+      label: String,
+      iconName: String,
+      iconPosition: {
+        type: String,
+        default: 'before'
+      }
+    },
+    computed: {
+      classes() {
+        const type = 'type-'+this.type
+        const iconPosition = this.iconName ? 'icon-position-'+this.iconPosition : ''
+        return type + ' ' + iconPosition
+      }
     },
     mounted() {
       const button = document.querySelector('button')
@@ -18,8 +34,8 @@
 </script>
 
 <template>
-  <button class="button">
-    <span class="button-icon material-symbols-outlined">favorite</span>
+  <button class="button" :class="classes">
+    <span v-if="iconName" class="button-icon material-symbols-outlined">{{ iconName }}</span>
     <span class="button-label">{{ label }}</span>
   </button>
 </template>
@@ -29,33 +45,65 @@
   $bg-color: #6d5dac;
 
   .button {
-    align-self: center;
     border: 0;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background-color: $bg-color;
-    color: #ffffff;
-    padding: .9em 1.6em;
+    padding: .7em 1.4em;
     border-radius: 6px;
-    font-size: 16px;
+    font-size: 14px;
     cursor: pointer;
-    transition: all .1s;
+    transition: all .2s;
+    &.type-plain {
+      background-color: $bg-color;
+      color: #ffffff;
+    }
+    &.type-subtle {
+      background-color: rgba($bg-color, 15%);
+      color: darken($bg-color, 10%);
+    }
+    &.type-border {
+      background-color: transparent;
+      color: darken($bg-color, 10%);
+      box-shadow: inset 0 0 0 2px rgba($bg-color, 15%);
+    }
 
     &-icon {
+      $margin: .5em;
       font-size: 1em;
-      margin-right: .5em;
       font-variation-settings: 'FILL' 0, 'wght' 500, 'GRAD' 0, 'opsz' 0;
       opacity: .5;
+      .icon-position-before & {
+        order: 1;
+        margin-right: $margin;
+      }
+      .icon-position-after & {
+        order: 2;
+        margin-left: $margin;
+      }
     }
 
     &-label {
       font-weight: 500;
       letter-spacing: .02em;
+      .icon-position-before & {
+        order: 2;
+      }
+      .icon-position-after & {
+        order: 1;
+      }
     }
 
     &:hover {
-      background-color: darken($bg-color, 10%);
+      &.type-plain {
+        background-color: darken($bg-color, 10%);
+      }
+      &.type-subtle {
+        background-color: rgba($bg-color, 25%);
+      }
+      &.type-border {
+        background-color: rgba($bg-color, 15%);
+      }
     }
 
     &.active {
