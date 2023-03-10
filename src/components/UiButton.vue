@@ -22,12 +22,11 @@
       }
     },
     mounted() {
-      const button = document.querySelector('button')
-      button.addEventListener('click', function () {
-        button.classList.add('active')
+      this.$el.addEventListener('click', function () {
+        this.classList.add('active')
       })
-      button.addEventListener('animationend', function () {
-        button.classList.remove('active')
+      this.$el.addEventListener('animationend', function () {
+        this.classList.remove('active')
       })
     }
   }
@@ -112,7 +111,7 @@
     }
 
     @keyframes active {
-      0% { box-shadow: 0 0 0 0 rgba($bg-color, 20%) }
+      0% { box-shadow: 0 0 0 0 rgba($bg-color, 12%) }
       100% { box-shadow: 0 0 0 35px rgba($bg-color, 0) }
     }
   }
